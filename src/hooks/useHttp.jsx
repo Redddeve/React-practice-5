@@ -2,11 +2,22 @@ import { useState, useEffect } from 'react';
 
 export const useHttp = (fn, params) => {
   const [data, setData] = useState([]);
-  useEffect(() => {
-    // fn(params).then({data}=> setData(data))
-  }, []);
-  //   return [data, setData];
-  return { data, setData };
-};
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-//* const { data } = useHttp(fetchMovies, params);
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      try {
+        const res = await fn(params);
+        setData(res);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    getData();
+  }, [fn, params]);
+  return { data, error, loading };
+};
