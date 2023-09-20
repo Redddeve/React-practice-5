@@ -7,28 +7,38 @@ import { getMovieCredits } from 'services/moviesAPI';
 const Credits = () => {
   const { movieId } = useParams();
   const { data, error } = useHttp(getMovieCredits, movieId);
-  const [firstIndex, setFirstIndex] = useState(0);
-  console.log(data);
+  const [ItemNum, setItemNum] = useState(0);
+  const [page, setPage] = useState(1);
   const per_page = 5;
 
   const pages = Math.ceil(data.length / per_page);
-  const pagesData = Array(pages)
+  /* const pagesData = Array(pages)
     .fill('-')
-    .map((_, i) => i + 1);
+    .map((_, i) => i + 1); */
   const getData = data => {
-    return [...data].slice(firstIndex, per_page + firstIndex);
+    return [...data].slice(0, per_page + ItemNum);
   };
+  function onLoadMore() {
+    setItemNum(prev => prev + per_page);
+    setPage(prev => prev + 1);
+  }
   const imgNotFound = 'https://demofree.sirv.com/nope-not-here.jpg';
   return (
     <div>
+      <h2>Movie Cast</h2>
       {error && <p>There is no info on cast for this movie</p>}
       <ul>
         {getData(data)?.map(({ id, name, character, profile_path }) => (
           <li key={id}>
             <img
-              src={`https://image.tmdb.org/t/p/w500/${profile_path}`}
+              src={
+                profile_path
+                  ? `https://image.tmdb.org/t/p/w500/${profile_path}`
+                  : ''
+              }
               alt={name}
               onError={e => {
+                //*  Not to forget
                 e.currentTarget.src = imgNotFound;
               }}
             />
@@ -37,20 +47,21 @@ const Credits = () => {
           </li>
         ))}
       </ul>
-      <ul>
+      {page !== pages && <button onClick={onLoadMore}>Load More</button>}
+      {/* <ul>
         {pagesData.map(page => (
           <li>
             {' '}
             <button
               onClick={() => {
-                setFirstIndex(prev => prev + per_page);
+                setItemNum(prev => prev + per_page);
               }}
             >
               {page}
             </button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

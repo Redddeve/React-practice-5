@@ -17,7 +17,6 @@ const MovieDetails = () => {
 
   const backRef = useRef(location.state?.from || '/');
   const { data } = useHttp(getMovieDetails, movieId);
-  console.log(data);
   const { title, overview, vote_average, poster_path, genres } = data;
   const roundedScore = Math.round(vote_average * 10);
   return (

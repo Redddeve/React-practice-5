@@ -9,7 +9,6 @@ const Movies = () => {
   const { register, handleSubmit } = useForm();
 
   function submitForm(data) {
-    console.log(data);
     setSearchParams(data.query && { query: data.query });
   }
 
