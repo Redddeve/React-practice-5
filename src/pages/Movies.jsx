@@ -26,6 +26,7 @@ const Movies = () => {
   const query = searchParams.get('query') || '';
   const location = useLocation();
   const { data: search, loading, error } = useHttp(getMoviesByName, query);
+  console.log(search);
   return (
     <>
       <StyledForm onSubmit={handleSubmit(submitForm)}>
@@ -34,15 +35,19 @@ const Movies = () => {
       </StyledForm>
       {loading && <Loader />}
       {error && <h3>Something went wrong!</h3>}
-      <StyledList>
-        {search?.map(({ id, title }) => (
-          <StyledItem key={id}>
-            <StyledLink state={{ from: location }} to={id.toString()}>
-              {title}
-            </StyledLink>
-          </StyledItem>
-        ))}
-      </StyledList>
+      {search?.length > 0 ? (
+        <StyledList>
+          {search?.map(({ id, title }) => (
+            <StyledItem key={id}>
+              <StyledLink state={{ from: location }} to={id.toString()}>
+                {title}
+              </StyledLink>
+            </StyledItem>
+          ))}
+        </StyledList>
+      ) : (
+        <h3>Nothing was found</h3>
+      )}
     </>
   );
 };
