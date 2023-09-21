@@ -1,8 +1,19 @@
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useHttp } from 'hooks/useHttp';
 import { getMoviesByName } from 'services/moviesAPI';
+import {
+  StyledButton,
+  StyledForm,
+  StyledInput,
+} from 'styledComponents/Movies.styled';
+import {
+  StyledItem,
+  StyledLink,
+  StyledList,
+} from 'styledComponents/Homepage.styled';
+import Loader from 'components/Loader';
 
 const Movies = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -17,21 +28,21 @@ const Movies = () => {
   const { data: search, loading, error } = useHttp(getMoviesByName, query);
   return (
     <>
-      <form onSubmit={handleSubmit(submitForm)}>
-        <input {...register('query')} type="text" />
-        <button>Search</button>
-      </form>
-      {loading && <h3>Loading...</h3>}
+      <StyledForm onSubmit={handleSubmit(submitForm)}>
+        <StyledInput {...register('query')} type="text" />
+        <StyledButton>Search</StyledButton>
+      </StyledForm>
+      {loading && <Loader />}
       {error && <h3>Something went wrong!</h3>}
-      <ul>
+      <StyledList>
         {search?.map(({ id, title }) => (
-          <li key={id}>
-            <Link state={{ from: location }} to={id.toString()}>
+          <StyledItem key={id}>
+            <StyledLink state={{ from: location }} to={id.toString()}>
               {title}
-            </Link>
-          </li>
+            </StyledLink>
+          </StyledItem>
         ))}
-      </ul>
+      </StyledList>
     </>
   );
 };

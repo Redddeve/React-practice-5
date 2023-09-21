@@ -32,15 +32,3 @@ export const getMovieReviews = async movieId => {
   const { data } = await axios.get(`/movie/${movieId}/reviews`, options);
   return data.results;
 };
-
-/* .then(({ status, message, data }) => {
-      if (status !== 200) {
-        throw new Error(message);
-      }
-      if (data.total === 0) {
-        toast.error(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-      }
-      return data;
-    }); */

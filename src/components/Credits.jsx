@@ -3,13 +3,19 @@ import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getMovieCredits } from 'services/moviesAPI';
+import {
+  LoadMoreButton,
+  StyledBox,
+  StyledItem,
+  StyledList,
+} from 'styledComponents/Credits.styled';
 
 const Credits = () => {
   const { movieId } = useParams();
   const { data, error } = useHttp(getMovieCredits, movieId);
   const [ItemNum, setItemNum] = useState(0);
   const [page, setPage] = useState(1);
-  const per_page = 5;
+  const per_page = 10;
 
   const pages = Math.ceil(data.length / per_page);
   /* const pagesData = Array(pages)
@@ -24,12 +30,12 @@ const Credits = () => {
   }
   const imgNotFound = 'https://demofree.sirv.com/nope-not-here.jpg';
   return (
-    <div>
+    <StyledBox>
       <h2>Movie Cast</h2>
       {error && <p>There is no info on cast for this movie</p>}
-      <ul>
+      <StyledList>
         {getData(data)?.map(({ id, name, character, profile_path }) => (
-          <li key={id}>
+          <StyledItem key={id}>
             <img
               src={
                 profile_path
@@ -42,12 +48,18 @@ const Credits = () => {
                 e.currentTarget.src = imgNotFound;
               }}
             />
-            <p>{name}</p>
-            <p>{character}</p>
-          </li>
+            <p>
+              <b>Actor:</b> {name}
+            </p>
+            <p>
+              <b>Character:</b> {character}
+            </p>
+          </StyledItem>
         ))}
-      </ul>
-      {page !== pages && <button onClick={onLoadMore}>Load More</button>}
+      </StyledList>
+      {page !== pages && (
+        <LoadMoreButton onClick={onLoadMore}>Load More</LoadMoreButton>
+      )}
       {/* <ul>
         {pagesData.map(page => (
           <li>
@@ -62,7 +74,7 @@ const Credits = () => {
           </li>
         ))}
       </ul> */}
-    </div>
+    </StyledBox>
   );
 };
 
