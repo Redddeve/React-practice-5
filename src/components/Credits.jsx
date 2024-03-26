@@ -18,9 +18,6 @@ const Credits = () => {
   const per_page = 10;
 
   const pages = Math.ceil(data.length / per_page);
-  /* const pagesData = Array(pages)
-    .fill('-')
-    .map((_, i) => i + 1); */
   const getData = data => {
     return [...data].slice(0, per_page + ItemNum);
   };
@@ -44,7 +41,6 @@ const Credits = () => {
               }
               alt={name}
               onError={e => {
-                //*  Not to forget
                 e.currentTarget.src = imgNotFound;
               }}
             />
@@ -60,20 +56,6 @@ const Credits = () => {
       {page !== pages && (
         <LoadMoreButton onClick={onLoadMore}>Load More</LoadMoreButton>
       )}
-      {/* <ul>
-        {pagesData.map(page => (
-          <li>
-            {' '}
-            <button
-              onClick={() => {
-                setItemNum(prev => prev + per_page);
-              }}
-            >
-              {page}
-            </button>
-          </li>
-        ))}
-      </ul> */}
     </StyledBox>
   );
 };

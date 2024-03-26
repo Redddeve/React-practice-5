@@ -7,7 +7,6 @@ import {
   AddLink,
   DescriptionBox,
   DescriptionList,
-  // DetailsWrapper,
   GoBackButton,
   StyledBox,
   StyledItem,
