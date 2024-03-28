@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>
-    <BrowserRouter basename="goit-react-hw-05-movies">
+    <BrowserRouter basename="React-practice-5">
       <App />
       <ToastContainer
         position="top-right"
